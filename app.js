@@ -21,11 +21,6 @@ let seconds = date_ob.getSeconds();
 
 var nowDate= (year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds);
 
-
-
-
-
-
 mongoose.connect("mongodb://localhost:/assignment",{useNewUrlParser:true , useUnifiedTopology: true ,useFindAndModify: false },function(err){
     if(err){
         console.log(err)
@@ -65,6 +60,12 @@ app.get("/",(req,res)=>{
         }
     })
 })
+
+
+
+// ===============================USER==========================================================================
+// ===============================USER==========================================================================
+// ===============================USER==========================================================================
 
 app.get("/adduser",(req,res)=>{
     res.render("adduser");
@@ -107,6 +108,7 @@ app.put("/user/:id",(req,res)=>{
                 if(err){
                     console.log(err)
                 }else{
+                    console.log("User Updated");
                     res.redirect("/");
                 }
             })
@@ -114,6 +116,62 @@ app.put("/user/:id",(req,res)=>{
     })
     
 })
+
+// ===============================ADMIN==========================================================================
+// ===============================ADMIN==========================================================================
+// ===============================ADMIN==========================================================================
+
+
+app.get("/addAdmin",(req,res)=>{
+    res.render("addAdmin");
+})
+
+app.post("/addAdmin",(req,res)=>{
+    var adm={firstName: req.body.namee, middleName:req.body.middle,lastName:req.body.last, email:req.body.email, password:req.body.password, department:req.body.department,}
+    console.log(adm);
+    Admin.create(adm,(err,newAdmin)=>{
+        if(err){
+            console.log(err)
+        }else{
+            console.log(newAdmin);
+            res.redirect("/");
+        }
+    })
+})
+
+
+
+app.get("/admin/:id/edit",(req,res)=>{
+       
+    Admin.findById(req.params.id,(err,foundAdmin)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.render("editadmin",{admin:foundAdmin});
+        }
+    })
+})
+
+app.put("/admin/:id",(req,res)=>{
+    Admin.findById(req.params.id,(err,foundAdmin)=>{
+        if(err){
+            console.log(err)
+        }else{
+            var adm={firstName: req.body.namee, middleName:req.body.middle,lastName:req.body.last, email:req.body.email, password:req.body.password, department:req.body.department,createdDate:foundAdmin.createdDate, updatedDate: nowDate};
+            console.log(adm); 
+            Admin.findByIdAndUpdate(req.params.id,adm,(err,UpdatedAdmin)=>{
+                if(err){
+                    console.log(err)
+                }else{
+                    console.log("Admin Updated");
+                    res.redirect("/");
+                }
+            })
+        }
+    })
+    
+})
+
 
 app.listen(PORT,function(){
     console.log("Server has started.....");

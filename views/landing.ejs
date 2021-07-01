@@ -15,18 +15,20 @@
     <div class="row">
         <div class="col-lg-6">
             <h3>Admins</h3>
+            <a href="/addAdmin" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 5rem;">Add Admin</a>
+
 
             <%admins.forEach(function(admin){%>
             <div class="card" style="width: 18rem;">
                 <div class="card-header">
-                  <%=admin.firstName%> <%=admin.middleName%> <%=admin.lastName%>
+                    <h4 style="font-weight: 600;"><%=admin.firstName%> <%=admin.middleName%> <%=admin.lastName%></h4>
                 </div>
-                <ul class="list-group list-group-flush">
+                <ul class="list-group list-group-flush" style="width: 500px;">
                   <li class="list-group-item"><%=admin.email%></li>
                   <li class="list-group-item"><%=admin.department%></li>
                   <li class="list-group-item"><%=admin.createdDate%></li>
                   <li class="list-group-item"><%=admin.updatedDate%></li>
-                  <a href="#" class="btn btn-danger">Edit</a>
+                  <a href="/admin/<%=admin._id%>/edit" class="btn btn-danger btn-lg btn-block">Edit</a>
                 </ul>
             </div>
             <%})%>
@@ -35,19 +37,20 @@
         </div>
         <div class="col-lg-6">
             <h3>Users</h3>
+            <a href="/adduser" class="btn btn-primary btn-lg btn-block" style="margin-bottom: 5rem;">Add User</a>
 
 
             <%users.forEach(function(user){%>
                 <div class="card" style="width: 18rem;">
                     <div class="card-header">
-                      <%=user.firstName%> <%=user.middleName%> <%=user.lastName%>
+                      <h4 style="font-weight: 600;"><%=user.firstName%> <%=user.middleName%> <%=user.lastName%></h4>
                     </div>
-                    <ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush" style="width: 500px;">
                       <li class="list-group-item"><%=user.email%></li>
                       <li class="list-group-item"><%=user.department%></li>
                       <li class="list-group-item"><%=user.createdDate%></li>
                       <li class="list-group-item"><%=user.updatedDate%></li>
-                      <a href="/user/<%=user._id%>/edit" class="btn btn-danger">Edit</a>
+                      <a href="/user/<%=user._id%>/edit" class="btn btn-danger btn-lg btn-block">Edit</a>
                     </ul>
                 </div>
                 <%})%>
