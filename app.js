@@ -5,10 +5,26 @@ var PORT = process.env.PORT || 5000;
 var express                 =require("express"),
     app                     =express(),
     bodyParer               =require("body-parser"),
-    mongoose                =require("mongoose");
+    mongoose                =require("mongoose"),
+    methodOverride           =require("method-override");
 
 
 app.use(bodyParer.urlencoded({extended:true}));
+
+let date_ob = new Date();
+let date = ("0" + date_ob.getDate()).slice(-2);
+let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+let year = date_ob.getFullYear();
+let hours = date_ob.getHours();
+let minutes = date_ob.getMinutes();
+let seconds = date_ob.getSeconds();
+
+var nowDate= (year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds);
+
+
+
+
+
 
 mongoose.connect("mongodb://localhost:/assignment",{useNewUrlParser:true , useUnifiedTopology: true ,useFindAndModify: false },function(err){
     if(err){
@@ -17,7 +33,7 @@ mongoose.connect("mongodb://localhost:/assignment",{useNewUrlParser:true , useUn
         console.log("Connected to Database");
     }
 });
-
+app.use(methodOverride("_method"));
 app.set("view engine","ejs");
 
 var ProfileSchema=new mongoose.Schema({
@@ -28,7 +44,7 @@ var ProfileSchema=new mongoose.Schema({
     password:{type:String, required:true,unique:true},
     department:{type:String, required:true,unique:true},
     createdDate:{ type: Date, default: Date.now },
-    updatedDate:{ type: Date, default: Date.now }
+    updatedDate:{ type: Date }
 });
 
 var User=mongoose.model("User",ProfileSchema);
@@ -55,7 +71,7 @@ app.get("/adduser",(req,res)=>{
 })
 
 app.post("/adduser",(req,res)=>{
-    var usr={firstName: req.body.namee, middleName:req.body.middle,lastName:req.body.last, email:req.body.email, password:req.body.password, department:req.body.department}
+    var usr={firstName: req.body.namee, middleName:req.body.middle,lastName:req.body.last, email:req.body.email, password:req.body.password, department:req.body.department,}
     console.log(usr);
     User.create(usr,(err,newUser)=>{
         if(err){
@@ -69,8 +85,35 @@ app.post("/adduser",(req,res)=>{
 
 
 
+app.get("/user/:id/edit",(req,res)=>{
+       
+    User.findById(req.params.id,(err,foundUser)=>{
+        if(err){
+            console.log(err)
+        }else{
+            res.render("edituser",{user:foundUser});
+        }
+    })
+})
 
-
+app.put("/user/:id",(req,res)=>{
+    User.findById(req.params.id,(err,foundUser)=>{
+        if(err){
+            console.log(err)
+        }else{
+            var usr={firstName: req.body.namee, middleName:req.body.middle,lastName:req.body.last, email:req.body.email, password:req.body.password, department:req.body.department,createdDate:foundUser.createdDate, updatedDate: nowDate};
+            console.log(usr); 
+            User.findByIdAndUpdate(req.params.id,usr,(err,UpdatedUser)=>{
+                if(err){
+                    console.log(err)
+                }else{
+                    res.redirect("/");
+                }
+            })
+        }
+    })
+    
+})
 
 app.listen(PORT,function(){
     console.log("Server has started.....");
