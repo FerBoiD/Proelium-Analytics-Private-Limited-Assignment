@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+</head>
+<body>
+    
+    
+<div class ="container" >
+    <div class="row">
+        <h1 style="text-align: center;">Create a new User</h1>
+            <div style="width:30%; margin: 30px auto;" >
+                <form action="/adduser" method="POST">
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="namee" placeholder="First Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="middle" placeholder="Middle Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="last" placeholder="Last Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="email" name="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="password" name="password" placeholder="Password" required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="text" name="department" placeholder="Department" required>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-lg btn-block">Submit!!!</button>
+                    </div>
+                </form>
+                <a href="/">Go Back!!</a>
+            </div>    
+        </div>
+    </div>
+</div>
+
+
+
+
+</body>
+</html>

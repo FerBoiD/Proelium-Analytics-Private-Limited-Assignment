@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+</head>
+<body>
+    
+    
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6">
+            <h3>Admins</h3>
+
+            <%admins.forEach(function(admin){%>
+            <div class="card" style="width: 18rem;">
+                <div class="card-header">
+                  <%=admin.firstName%> <%=admin.middleName%> <%=admin.lastName%>
+                </div>
+                <ul class="list-group list-group-flush">
+                  <li class="list-group-item"><%=admin.email%></li>
+                  <li class="list-group-item"><%=admin.department%></li>
+                  <li class="list-group-item"><%=admin.createdDate%></li>
+                  <li class="list-group-item"><%=admin.updatedDate%></li>
+                  <a href="#" class="btn btn-danger">Edit</a>
+                </ul>
+            </div>
+            <%})%>
+
+
+        </div>
+        <div class="col-lg-6">
+            <h3>Users</h3>
+
+
+            <%users.forEach(function(user){%>
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                      <%=user.firstName%> <%=user.middleName%> <%=user.lastName%>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item"><%=user.email%></li>
+                      <li class="list-group-item"><%=user.department%></li>
+                      <li class="list-group-item"><%=user.createdDate%></li>
+                      <li class="list-group-item"><%=user.updatedDate%></li>
+                      <a href="/user/<%=user._id%>/edit" class="btn btn-danger">Edit</a>
+                    </ul>
+                </div>
+                <%})%>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
