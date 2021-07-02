@@ -6,7 +6,8 @@ var express                 =require("express"),
     app                     =express(),
     bodyParer               =require("body-parser"),
     mongoose                =require("mongoose"),
-    methodOverride           =require("method-override");
+    methodOverride           =require("method-override"),
+    bcrypt                  =require("bcrypt-nodejs");
 
 
 app.use(bodyParer.urlencoded({extended:true}));
@@ -42,6 +43,20 @@ var ProfileSchema=new mongoose.Schema({
     updatedDate:{ type: Date }
 });
 
+ProfileSchema.pre('save',function(next){
+    var user=this;
+    bcrypt.hash(user.password,null,null,function(err,hash){
+        if(err){
+            console.log(err);
+            return next(err)
+        }else{
+            user.password=hash;
+            next()
+        }
+    })
+});
+
+
 var User=mongoose.model("User",ProfileSchema);
 var Admin=mongoose.model("Admin",ProfileSchema);
 
@@ -76,9 +91,10 @@ app.post("/adduser",(req,res)=>{
     console.log(usr);
     User.create(usr,(err,newUser)=>{
         if(err){
-            console.log(err)
+            console.log("Please ensure all the fields are unique");
+            res.redirect("/");
         }else{
-            console.log(newUser);
+            // console.log(newUser);
             res.redirect("/");
         }
     })
@@ -100,7 +116,8 @@ app.get("/user/:id/edit",(req,res)=>{
 app.put("/user/:id",(req,res)=>{
     User.findById(req.params.id,(err,foundUser)=>{
         if(err){
-            console.log(err)
+            console.log("Please ensure all the fields are unique");
+            res.redirect("/");
         }else{
             var usr={firstName: req.body.namee, middleName:req.body.middle,lastName:req.body.last, email:req.body.email, password:req.body.password, department:req.body.department,createdDate:foundUser.createdDate, updatedDate: nowDate};
             console.log(usr); 
@@ -131,7 +148,8 @@ app.post("/addAdmin",(req,res)=>{
     console.log(adm);
     Admin.create(adm,(err,newAdmin)=>{
         if(err){
-            console.log(err)
+            console.log("Please ensure all the fields are unique");
+            res.redirect("/");
         }else{
             console.log(newAdmin);
             res.redirect("/");
@@ -155,7 +173,8 @@ app.get("/admin/:id/edit",(req,res)=>{
 app.put("/admin/:id",(req,res)=>{
     Admin.findById(req.params.id,(err,foundAdmin)=>{
         if(err){
-            console.log(err)
+            console.log("Please ensure all the fields are unique");
+            res.redirect("/");
         }else{
             var adm={firstName: req.body.namee, middleName:req.body.middle,lastName:req.body.last, email:req.body.email, password:req.body.password, department:req.body.department,createdDate:foundAdmin.createdDate, updatedDate: nowDate};
             console.log(adm); 
